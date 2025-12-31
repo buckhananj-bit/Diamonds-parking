@@ -1,0 +1,452 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Diamonds Parking</title>
+
+  <style>
+    :root{
+      --bg: #f4f6f8;
+      --card: #ffffff;
+      --text: #111827;
+      --muted: #6b7280;
+      --line: #e5e7eb;
+
+      --banner: #d7eef3;
+      --bannerText: #1f2937;
+
+      --primary: #0ea5b7;
+      --primaryDark: #0b7f8d;
+      --apple: #111111;
+      --paypal: #f4c542;
+      --danger: #e11d48;
+
+      --radius: 14px;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .wrap {
+      max-width: 520px;
+      margin: 0 auto;
+      min-height: 100vh;
+      background: var(--bg);
+    }
+
+    .hero {
+      position: relative;
+      height: 155px;
+      overflow: hidden;
+      background: #111;
+    }
+    .hero::before {
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        linear-gradient(90deg, rgba(0,0,0,.65), rgba(0,0,0,.2)),
+        url("hero-cars.jpg") center/cover no-repeat;
+    }
+    .heroInner {
+      position: relative;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 18px;
+      color: #fff;
+    }
+    .badge {
+      width: 62px;
+      height: 62px;
+      border-radius: 14px;
+      background: #0b5fa8;
+      display: grid;
+      place-items: center;
+      border: 2px solid rgba(255,255,255,.15);
+      flex: 0 0 auto;
+    }
+    .badge span{
+      font-weight: 800;
+      font-size: 34px;
+      line-height: 1;
+    }
+    .heroText h1 {
+      margin: 0;
+      font-size: 18px;
+      letter-spacing: .2px;
+    }
+    .heroText p {
+      margin: 6px 0 0;
+      font-size: 14px;
+      opacity: .9;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 360px;
+    }
+
+    .banner {
+      background: var(--banner);
+      color: var(--bannerText);
+      padding: 12px 16px;
+      font-size: 13px;
+      letter-spacing: .2px;
+      border-bottom: 1px solid rgba(0,0,0,.04);
+      text-transform: uppercase;
+    }
+
+    .card { padding: 16px; }
+
+    .sectionTitle {
+      font-weight: 700;
+      font-size: 16px;
+      margin: 18px 0 10px;
+    }
+
+    .fieldLabelRow {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 6px;
+      margin-bottom: 6px;
+    }
+    .fieldLabelRow .label {
+      font-weight: 700;
+      font-size: 16px;
+    }
+
+    .scanBtn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #e11d48;
+      background: transparent;
+      border: none;
+      padding: 8px 8px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    .scanBtn:hover { background: rgba(225,29,72,.08); }
+
+    .input, .select {
+      width: 100%;
+      border: 1px solid var(--line);
+      background: var(--card);
+      border-radius: 12px;
+      padding: 14px 14px;
+      font-size: 16px;
+      outline: none;
+    }
+    .input:focus, .select:focus {
+      border-color: rgba(14,165,183,.55);
+      box-shadow: 0 0 0 4px rgba(14,165,183,.12);
+    }
+
+    .mutedRow {
+      display:flex;
+      justify-content: space-between;
+      align-items:center;
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .linkish {
+      color: #d12b53;
+      font-weight: 600;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .totals {
+      margin-top: 16px;
+      border-top: 1px solid var(--line);
+      padding-top: 16px;
+      display:flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+    .totals .totalLabel {
+      font-weight: 800;
+      font-size: 18px;
+      letter-spacing: .2px;
+    }
+    .totals .totalValue {
+      font-weight: 800;
+      font-size: 22px;
+    }
+
+    .terms {
+      margin-top: 18px;
+      font-size: 13px;
+      color: var(--muted);
+      text-align: center;
+    }
+    .terms a { color: #0b6b93; text-decoration: none; font-weight: 600; }
+    .terms a:hover { text-decoration: underline; }
+
+    .btn {
+      width: 100%;
+      border-radius: 12px;
+      padding: 14px 16px;
+      font-size: 16px;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      margin-top: 12px;
+    }
+    .btnApple { background: var(--apple); color: #fff; }
+    .btnPrimary { background: var(--primary); color: #fff; }
+    .btnPrimary:hover { background: var(--primaryDark); }
+    .btnPayPal { background: var(--paypal); color: #123; }
+
+    .or {
+      text-align:center;
+      color: var(--muted);
+      font-size: 12px;
+      margin: 14px 0 4px;
+      letter-spacing: .2px;
+      text-transform: uppercase;
+    }
+
+    .error {
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: rgba(225,29,72,.08);
+      color: #9f1239;
+      font-size: 14px;
+      display: none;
+    }
+
+    .footerPad { height: 26px; }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="hero">
+      <div class="heroInner">
+        <div class="badge" aria-hidden="true"><span>P</span></div>
+        <div class="heroText">
+          <h1>Diamonds Parking Seattle</h1>
+          <!-- EXACT zone line text per your screenshot -->
+          <p id="zoneLine">A0883 - 1750 Occidental Ave... • Zone A0883</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="banner">ALL PURCHASES ARE SUBJECT TO SEATTLE PARKING TAX &amp; SALES TAX</div>
+
+    <div class="card">
+      <div class="fieldLabelRow">
+        <div class="label">Plate Number</div>
+        <button class="scanBtn" id="scanPlateBtn" type="button" title="Scan Plate">
+          <span aria-hidden="true">📷</span>
+          <span>Scan Plate</span>
+        </button>
+      </div>
+      <input class="input" id="plateInput" inputmode="text" autocomplete="off" placeholder="Enter plate number" />
+
+      <div class="sectionTitle">Choose Rate</div>
+      <select class="select" id="rateSelect">
+        <option value="" selected disabled>Select Rate</option>
+      </select>
+
+      <div class="mutedRow">
+        <div>Parking Fees (Tax Incl)</div>
+        <div id="parkingFee">—</div>
+      </div>
+
+      <div class="mutedRow">
+        <div>Service Fee</div>
+        <div id="serviceFee">—</div>
+      </div>
+
+      <div class="mutedRow">
+        <div class="linkish" id="promoLink">Add Promo</div>
+        <div id="promoValue">—</div>
+      </div>
+
+      <div class="totals">
+        <div class="totalLabel">TOTAL</div>
+        <div class="totalValue" id="totalValue">—</div>
+      </div>
+
+      <div class="error" id="errorBox"></div>
+
+      <div class="terms">
+        By purchasing, you agree to <a href="#" id="termsLink">Terms and Conditions</a>
+      </div>
+
+      <button class="btn btnApple" id="applePayBtn" type="button"> Pay</button>
+
+      <div class="or">OR</div>
+
+      <button class="btn btnPrimary" id="cardPayBtn" type="button">Pay with Credit Card</button>
+      <button class="btn btnPayPal" id="paypalBtn" type="button">PayPal</button>
+    </div>
+
+    <div class="footerPad"></div>
+  </div>
+
+  <script>
+    // =========================
+    // CONFIG YOU CHANGE
+    // =========================
+
+    // Normal days: "STANDARD" (hourly list)
+    // Event days:  "EVENT"    (single flat option)
+    const MODE = "STANDARD"; // <-- change to "EVENT" on event days
+
+    // Service fee to match your screenshot feel
+    const SERVICE_FEE_FLAT = 0.50;
+
+    // STANDARD (hourly) menu — edit prices anytime
+    const RATES_STANDARD = [
+      { id: "1hr",  label: "1 Hour",  fee: 6.24 },
+      { id: "2hr",  label: "2 Hour",  fee: 10.50 },
+      { id: "4hr",  label: "4 Hour",  fee: 18.99 },
+      { id: "8hr",  label: "8 Hour",  fee: 24.99 },
+    ];
+
+    // EVENT (single flat) — edit this on event days
+    const EVENT_FLAT_RATE = 30.00; // <-- set your event price
+    const RATES_EVENT = [
+      { id: "event", label: "Event", fee: EVENT_FLAT_RATE }
+    ];
+
+    // Promo (optional)
+    let promoDiscount = 0.00;
+
+    // =========================
+    // APP LOGIC
+    // =========================
+    const rateSelect = document.getElementById("rateSelect");
+    const parkingFeeEl = document.getElementById("parkingFee");
+    const serviceFeeEl = document.getElementById("serviceFee");
+    const totalEl = document.getElementById("totalValue");
+    const promoValueEl = document.getElementById("promoValue");
+    const errorBox = document.getElementById("errorBox");
+
+    function money(n){
+      return new Intl.NumberFormat("en-US", { style:"currency", currency:"USD" }).format(n);
+    }
+
+    function clearError(){
+      errorBox.style.display = "none";
+      errorBox.textContent = "";
+    }
+    function showError(msg){
+      errorBox.style.display = "block";
+      errorBox.textContent = msg;
+    }
+
+    function mountRates(){
+      const rates = (MODE === "EVENT") ? RATES_EVENT : RATES_STANDARD;
+
+      // wipe + rebuild options
+      rateSelect.innerHTML = `<option value="" selected disabled>Select Rate</option>`;
+      for(const r of rates){
+        const opt = document.createElement("option");
+        opt.value = r.id;
+        opt.textContent = r.label;
+        opt.dataset.fee = String(r.fee);
+        rateSelect.appendChild(opt);
+      }
+    }
+
+    function updateTotals(){
+      const idx = rateSelect.selectedIndex;
+      const opt = rateSelect.options[idx];
+      const feeStr = opt?.dataset?.fee;
+
+      if(!feeStr){
+        parkingFeeEl.textContent = "—";
+        serviceFeeEl.textContent = "—";
+        promoValueEl.textContent = "—";
+        totalEl.textContent = "—";
+        return;
+      }
+
+      const parkingFee = Number(feeStr);
+      const serviceFee = SERVICE_FEE_FLAT;
+      const total = Math.max(0, parkingFee + serviceFee - promoDiscount);
+
+      parkingFeeEl.textContent = money(parkingFee);
+      serviceFeeEl.textContent = money(serviceFee);
+      promoValueEl.textContent = promoDiscount > 0 ? "-" + money(promoDiscount) : "—";
+      totalEl.textContent = money(total);
+    }
+
+    function validate(){
+      clearError();
+      const plate = document.getElementById("plateInput").value.trim();
+      const rate = rateSelect.value;
+
+      if(!plate){
+        showError("Please enter a plate number.");
+        return false;
+      }
+      if(!rate){
+        showError("Please select a rate.");
+        return false;
+      }
+      return true;
+    }
+
+    // Promo stub: PARK5 = $5 off (optional)
+    document.getElementById("promoLink").addEventListener("click", () => {
+      const code = window.prompt("Enter promo code:");
+      if(!code) return;
+
+      if(code.trim().toUpperCase() === "PARK5"){
+        promoDiscount = 5.00;
+      } else {
+        promoDiscount = 0.00;
+        alert("Promo code not recognized.");
+      }
+      updateTotals();
+    });
+
+    // Scan Plate stub
+    document.getElementById("scanPlateBtn").addEventListener("click", () => {
+      alert("Scan Plate is a placeholder. Add camera/OCR later if you want.");
+    });
+
+    // Payment button stubs
+    document.getElementById("applePayBtn").addEventListener("click", () => {
+      if(!validate()) return;
+      alert("Apple Pay flow goes here (Stripe Payment Request / Checkout).");
+    });
+    document.getElementById("cardPayBtn").addEventListener("click", () => {
+      if(!validate()) return;
+      alert("Credit Card flow goes here (Stripe Checkout / Elements).");
+    });
+    document.getElementById("paypalBtn").addEventListener("click", () => {
+      if(!validate()) return;
+      alert("PayPal flow goes here (PayPal integration).");
+    });
+
+    document.getElementById("termsLink").addEventListener("click", (e) => {
+      e.preventDefault();
+      alert("Link this to your real Terms & Conditions page.");
+    });
+
+    rateSelect.addEventListener("change", updateTotals);
+
+    // Init
+    mountRates();
+    updateTotals();
+  </script>
+</body>
+</html>
