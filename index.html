@@ -431,15 +431,57 @@ const STRIPE_LINKS = {
     // Payment button stubs
     document.getElementById("applePayBtn").addEventListener("click", () => {
       if(!validate()) return;
-      alert("Apple Pay flow goes here (Stripe Payment Request / Checkout).");
+      function goToStripe() {
+  clearError();
+
+  const plate = document.getElementById("plateInput").value.trim();
+  const rate = document.getElementById("rateSelect").value;
+
+  if (!plate) {
+    showError("Please enter a plate number.");
+    return;
+  }
+
+  if (!rate) {
+    showError("Please select a rate.");
+    return;
+  }
+
+  const stripeUrl = STRIPE_LINKS[rate];
+  if (!stripeUrl) {
+    showError("Payment option not available.");
+    return;
+  }
+
+  // Redirect to Stripe
+  window.location.href = stripeUrl;
+}
+    
     });
-    document.getElementById("cardPayBtn").addEventListener("click", () => {
-      if(!validate()) return;
-      alert("Credit Card flow goes here (Stripe Checkout / Elements).");
-    });
-    document.getElementById("paypalBtn").addEventListener("click", () => {
-      if(!validate()) return;
-      alert("PayPal flow goes here (PayPal integration).");
+function goToStripe() {
+  clearError();
+
+  const plate = document.getElementById("plateInput").value.trim();
+  const rate = document.getElementById("rateSelect").value;
+
+  if (!plate) {
+    showError("Please enter a plate number.");
+    return;
+  }
+
+  if (!rate) {
+    showError("Please select a rate.");
+    return;
+  }
+
+  const stripeUrl = STRIPE_LINKS[rate];
+  if (!stripeUrl) {
+    showError("Payment option not available.");
+    return;
+  }
+
+  window.location.href = stripeUrl;
+}
     });
 
     document.getElementById("termsLink").addEventListener("click", (e) => {
